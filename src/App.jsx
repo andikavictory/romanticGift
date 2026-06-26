@@ -301,6 +301,8 @@ const playClick = () => {
           setTimeout(() => {
             correctSound.current.pause();
           }, 1000);
+          bgMusic.current.play();
+          bgMusic.current.volume = 0.3;
           setPage("heartGame")}}
       >
         ❤️ Mau Lihat Kadonya
