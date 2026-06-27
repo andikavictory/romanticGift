@@ -7,10 +7,11 @@ export default function Envelope({ open }) {
       <motion.div
         className="letter-sheet"
         animate={{
-          y: open ? -120 : 0
+          y: open ? -100 : 0
         }}
         transition={{
           duration: 2,
+          delay: 1.6,
           ease: "easeOut"
         }}
       >

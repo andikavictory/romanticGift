@@ -840,7 +840,7 @@ button {
 
   position: absolute;
   
-  left: 40%;
+  left: 40.25%;
   top: 72px;
 
   transform:
@@ -1023,11 +1023,6 @@ button {
   animation: blink 0.8s infinite;
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
 
 .typing-text {
   white-space: pre-line;
@@ -1096,6 +1091,12 @@ button {
   }
 
   /* ENVELOPE */
+
+  .envelope-wrapper {
+    margin-left: -110px;
+    margin-top: -70px;
+  }
+  
   .envelope-premium {
     width: 220px;
     height: 140px;
@@ -1143,6 +1144,12 @@ button {
   .bokeh {
     width: 35px;
     height: 35px;
+  }
+
+  .letter-sheet {
+
+  width: 180px;
+  height: 100px;
   }
 
 }

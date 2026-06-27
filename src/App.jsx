@@ -22,6 +22,7 @@ function App() {
   const [showGlow, setShowGlow] = useState(false);
 
   const [openEnvelope, setOpenEnvelope] = useState(false);
+  const [raiseLetter, setRaiseLetter] = useState(false);
   const [zoomScene, setZoomScene] = useState(false);
 
   const [showMagic, setShowMagic] = useState(false);
@@ -99,6 +100,13 @@ const bgMusic = useRef(new Audio("/romantic.mp3"));
 
   }, 4500);
 
+  // tunggu flap selesai buka dulu
+setTimeout(() => {
+
+  setRaiseLetter(true);
+
+}, 6000);
+
   setTimeout(() => {
     setLetterAnimation(true);
   }, 6500);
@@ -129,6 +137,24 @@ const bgMusic = useRef(new Audio("/romantic.mp3"));
 
     }, []);
 
+    useEffect(() => {
+
+    const audio = typingSound.current;
+
+    const handleTimeUpdate = () => {
+      if (audio.currentTime >= 5) {
+        audio.currentTime = 0;
+      }
+    };
+
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+
+    return () => {
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+
+  }, []);
+
   useEffect(() => {
 
     if (!showLetterText) return;
@@ -137,10 +163,8 @@ const bgMusic = useRef(new Audio("/romantic.mp3"));
 
     let index = 0;
 
-    if (!showLetterText) return;
-
-    typingSound.current.currentTime = 0;
     typingSound.current.volume = 1;
+    typingSound.current.currentTime = 0;
     typingSound.current.play();
 
     const interval = setInterval(() => {
@@ -153,8 +177,8 @@ const bgMusic = useRef(new Audio("/romantic.mp3"));
 
       if (index > fullLetter.length) {
 
-        typingSound.current.pause();
-        typingSound.current.currentTime = 0;
+      typingSound.current.pause();
+      typingSound.current.currentTime = 0;
 
         clearInterval(interval);
       }
@@ -180,22 +204,42 @@ const bgMusic = useRef(new Audio("/romantic.mp3"));
     "Serius nih? 😭",
     "Aku bikinnya khusus buat kamu loh ❤️",
     "Minimal penasaran dikit dong 😏",
-    "Ada seseorang yang sayang banget sama kamu di balik hadiah ini ❤️",
+    "Ada seseorang yang sayang banget sama kamu di balik hadiah ini 😋❤️",
     "Yaudah deh, pencet 'Mau Lihat' aja 😆"
   ];
-const fullLetter = `Hai kamu ❤️
+const fullLetter = `Hai Stephanie Sayang ❤️
 
-Aku tahu kita belum lama kenal.
+Maaf ya kalau hadiah ulang tahun ini datang sedikit terlambat.
 
-Belum pernah jalan bareng.
-Belum pernah foto bareng.
+Aku tahu kita memang belum lama kenal.
 
-Tapi aku bersyukur bisa mengenal kamu.
+Kita belum pernah jalan bareng,
+belum pernah main bareng,
+belum pernah foto bareng,
+dan masih banyak hal yang belum sempat kita lakukan bersama.
 
-Dan karena hari ini adalah hari yang spesial,
-aku ingin memberikan sesuatu yang kubuat khusus untukmu.
+Tapi meskipun waktu kita saling mengenal belum lama, kehadiranmu sudah menjadi sesuatu yang sangat spesial buat aku.
 
-Semoga kamu suka ya ❤️`;
+Aku bersyukur karena Tuhan mempertemukan aku dengan seseorang sebaik, sehangat, dan seistimewa kamu.
+
+Hari demi hari, kamu selalu berhasil membuat aku tersenyum, membuat hariku terasa lebih berwarna, dan membuat aku semakin menghargai setiap momen kecil yang kita lewati.
+
+Di hari ulang tahunmu ini, aku tidak punya hadiah yang mewah.
+
+Tapi aku membuat hadiah kecil ini dengan tulus, khusus untuk kamu, sebagai tanda bahwa kamu adalah seseorang yang berarti di hidupku.
+
+Aku juga berdoa supaya di usia yang baru ini, Tuhan selalu memberkati setiap langkahmu, menjaga kesehatanmu, memberikan sukacita dalam hatimu, dan mengabulkan setiap rencana baik yang sudah Dia siapkan untuk hidupmu.
+
+Dan yang paling penting, semoga kamu semakin dekat dengan Tuhan setiap harinya, semakin bertumbuh dalam iman, semakin setia dalam persekutuan, dan tidak pernah meninggalkan Tuhan dalam keadaan apa pun.
+
+Tetaplah menjadi Stephanie yang baik, kuat, rendah hati, dan selalu membawa terang bagi orang-orang di sekitarmu.
+
+Terima kasih karena sudah hadir dalam hidupku ❤️
+
+Selamat ulang tahun ya, Sayang 🎂❤️
+
+Semoga kamu suka hadiah kecil ini dariku. 💕`;
+
 
   const moveHeart = () => {
   setHeartPosition({
@@ -252,7 +296,7 @@ const playClick = () => {
     return (
       <div className="container">
       <div className="card">
-        <h1>Aku punya sesuatu buat kamu ❤️</h1>
+        <h1>aku punya sesuatu buat kamu ❤️</h1>
 
         <button
           onClick={() => {
@@ -336,7 +380,9 @@ const playClick = () => {
                 }
               if (rejectIndex < rejectMessages.length - 1) {
                 setRejectIndex(rejectIndex + 1);
-                setButtonSize(buttonSize + 0.2);
+                setButtonSize(
+                  Math.min(buttonSize + 0.1, 1.4)
+                );
               }
             }}
           >
@@ -354,7 +400,7 @@ const playClick = () => {
           <div className="card">
 
             <h1>
-              Tangkap 10 hati dulu ❤️
+              Tangkap 10 hati dulu ya sayang❤️
             </h1>
 
             <h2>
@@ -612,7 +658,7 @@ if (page === "gift") {
                       : "back-layer"
                   }`}
                 animate={{
-                  y: showEnvelopeRise ? -140 : 40,
+                  y: showEnvelopeRise ? -110 : 40,
                   scale: openEnvelope ? 1.15 : 1,
                 }}
                 transition={{
@@ -620,7 +666,10 @@ if (page === "gift") {
                   ease: "easeOut"
                 }}
               >
-                <Envelope open={openEnvelope} />
+              <Envelope
+                open={openEnvelope}
+                raiseLetter={raiseLetter}
+              />
               </motion.div>
 
               {letterAnimation && (
